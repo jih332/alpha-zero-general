@@ -1,7 +1,5 @@
 # Alpha Gomoku  
 
-## CSE253 Final Project  
-
 This project is folked from the [repo](https://github.com/suragnair/alpha-zero-general).
 We reuse/modify some code in the original repo.
 To start training a Gomoku agent:
