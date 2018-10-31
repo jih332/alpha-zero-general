@@ -57,7 +57,7 @@ class Arena():
             self.display(board)
         return self.game.getGameEnded(board, 1)
 
-    def playGames(self, num, verbose=False):
+    def playGames(self, num, verbose = False):
         """
         Plays num games in which player1 starts num/2 games and player2 starts
         num/2 games.
@@ -89,7 +89,7 @@ class Arena():
             eps += 1
             eps_time.update(time.time() - end)
             end = time.time()
-            bar.suffix  = '({eps}/{maxeps}) Eps Time: {et:.3f}s | Total: {total:} | ETA: {eta:}'.format(eps=eps+1, maxeps=maxeps, et=eps_time.avg,
+            bar.suffix  = '({eps}/{maxeps}) Eps Time: {et:.3f}s | Total: {total:} | ETA: {eta:}'.format(eps=eps, maxeps=maxeps, et=eps_time.avg,
                                                                                                        total=bar.elapsed_td, eta=bar.eta_td)
             bar.next()
 
@@ -107,7 +107,7 @@ class Arena():
             eps += 1
             eps_time.update(time.time() - end)
             end = time.time()
-            bar.suffix  = '({eps}/{maxeps}) Eps Time: {et:.3f}s | Total: {total:} | ETA: {eta:}'.format(eps=eps+1, maxeps=num, et=eps_time.avg,
+            bar.suffix  = '({eps}/{maxeps}) Eps Time: {et:.3f}s | Total: {total:} | ETA: {eta:}'.format(eps=eps, maxeps=num, et=eps_time.avg,
                                                                                                        total=bar.elapsed_td, eta=bar.eta_td)
             bar.next()
             

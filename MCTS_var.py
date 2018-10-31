@@ -1,5 +1,6 @@
 import math
 import numpy as np
+import random
 
 class MCTS():
     """
@@ -97,11 +98,13 @@ class MCTS():
         cur_best = -float('inf')
         best_act = -1
 
+        D = 1.0
+
         # pick the action with the highest upper confidence bound
         for a in range(self.game.getActionSize()):
             if valids[a]:
                 if (s,a) in self.Qsa:
-                    u = self.Qsa[(s,a)] + self.args.cpuct*self.Ps[s][a]*math.sqrt(self.Ns[s])/(1+self.Nsa[(s,a)])
+                    u = self.Qsa[(s,a)] + self.args.cpuct*self.Ps[s][a]*math.sqrt(self.Ns[s])/(1+self.Nsa[(s,a)]) + math.sqrt((D/self.Ns[s]) + np.var(valids))
                 else:
                     u = self.args.cpuct*self.Ps[s][a]*math.sqrt(self.Ns[s] + 0.000001)     # Q = 0 ?
 
@@ -110,6 +113,14 @@ class MCTS():
                     best_act = a
 
         a = best_act
+
+        a_rand_list = []
+        for a in range(self.game.getActionSize()):
+            if valids[a]:
+                a_rand_list.append(a)
+
+        a = a_rand_list[random.randint(0, len(a_rand_list)-1)]
+
         next_s, next_player = self.game.getNextState(canonicalBoard, 1, a)
         next_s = self.game.getCanonicalForm(next_s, next_player)
 

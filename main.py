@@ -1,34 +1,40 @@
 from Coach import Coach
-from othello.OthelloGame import OthelloGame as Game
-from othello.pytorch.NNet import NNetWrapper as nn
+from gomoku.GomokuGame import GomokuGame as Game
+from gomoku.tensorflow.GomokuNNet import NNetWrapper as nn
 from utils import *
 
 args = dotdict({
     'numIters': 1000,
-    'numEps': 100,
-    'tempThreshold': 15,
+    'numEps': 60,
+    'tempThreshold': 20,
     'updateThreshold': 0.6,
     'maxlenOfQueue': 200000,
-    'numMCTSSims': 25,
-    'arenaCompare': 40,
+    'numMCTSSims': 200,
+    'arenaCompare': 30,
     'cpuct': 1,
 
-    'checkpoint': './temp/',
-    'load_model': False,
-    'load_folder_file': ('/dev/models/8x100x50','best.pth.tar'),
-    'numItersForTrainExamplesHistory': 20,
+    'checkpoint': './checkpoints/',
+    'load_model': True,
+    'load_examples': True,
+    'load_folder_file': ('ckpt_', 55),
+    'load_best_model': True,
+    'load_latest_examples': True,
+    'numItersForTrainExamplesHistory': 5,
 
 })
 
 if __name__=="__main__":
-    g = Game(6)
+    g = Game(9)
     nnet = nn(g)
 
     if args.load_model:
-        nnet.load_checkpoint(args.load_folder_file[0], args.load_folder_file[1])
+        if args.load_best_model:
+            nnet.load_checkpoint(args.checkpoint, 'best')
+        else:
+            nnet.load_checkpoint(args.checkpoint, args.load_folder_file)
 
     c = Coach(g, nnet, args)
-    if args.load_model:
+    if args.load_examples:
         print("Load trainExamples from file")
         c.loadTrainExamples()
     c.learn()
